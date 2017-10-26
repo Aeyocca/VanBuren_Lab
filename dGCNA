@@ -1,0 +1,61 @@
+Welp I just lost the notes for the last few days because I didn't save the file and closed it.. lesson learned
+Not too big of a deal, I can recreate the error message from yesterday its not necessary, just shows that I need to update the compiler from version 6 to version 7.. but thats a big problem I guess, maybe should email someone from hpcc as last resort, tried just downloading java software but that isn't working, maybe can install for cygwin environment.. we shall see
+
+10-26-17
+Try to summarize notes that were lost because they were not saved:
+java is complicated
+All the .java files seem to be part of a package called networkCalcPackage as they all have that as the first line. It seems Operations.java is the only one that doesn't depend on other scripts so far, but if I find out it does, will have another problem.
+I have all the .java scripts on hpcc
+I uploaded all other required packages and pointed to them using:
+$ export CLASSPATH=${CLASSPATH}:${package .jar file}
+
+
+Sweet. List of exports needed:
+[yoccaala@dev-intel14 01_VanBuren]$ export CLASSPATH=${CLASSPATH}:.
+[yoccaala@dev-intel14 01_VanBuren]$ export CLASSPATH=${CLASSPATH}:commons-lang3-3.6.jar
+[yoccaala@dev-intel14 01_VanBuren]$ export CLASSPATH=${CLASSPATH}:commons-math3-3.6.1.jar
+[yoccaala@dev-intel14 01_VanBuren]$ export CLASSPATH=${CLASSPATH}:commons-cli-1.4.jar
+[yoccaala@dev-intel14 01_VanBuren]$ export CLASSPATH=${CLASSPATH}:jcommon-1.0.23.jar
+[yoccaala@dev-intel14 01_VanBuren]$ export CLASSPATH=${CLASSPATH}:jfreechart-1.0.19.jar
+
+Now we got some jar files that are all dependent on each other. Lets try
+
+$ javac *.java
+I think it worked, got all .class files, but also got OperationsS1 and S2 .class. Not sure what this is. Additionally got the following error: has additional uses or overrides of a deprecated API
+Looked it up, said I'm just using outdated things which Seems like program could still run so I'm going to roll with it
+
+$ java NetworkCalculator determine -d Sedum_RNAseq_TPM-v3.0.1-average.txt -c pcc -aL 2 -aH 8 -mL 0.1 -mH 0.9
+ Could not find or load main class NetworkCalculator
+
+Its looking better, moved all .java and .class files to directory, directly above that directory I got all the package .jar files,
+$ java networkCalcPackage.NetworkCalculator -determine
+usage: java -jar jarfile.jar
+ -compare <compare>         compare several network matricies
+ -construct <construct>     construct a network via application of a
+                            topological overlap calculation
+ -determine <determine>     Determine best parameters for dataset
+ -h                         print this message
+ -permute <permute>         perform background permutations to determine
+                            significance cutoff
+ -scalefree <scalefree>     Determine elasticity cutoff via conformation
+                            to scale free criteria
+ -similarity <similarity>   construct a similarity matrix and print it to
+                            a file
+ -test <test>               test routines
+
+$ java networkCalcPackage.NetworkCalculator determine -d ../../Sedum_RNAseq_TPM-v3.0.1-average.txt -c pcc -aL 2 -aH 8 -mL 0.1 -mH 0.9 -t 1
+data file is not a rectilinear data file
+
+Check Sedum file
+
+Boooo, I'm getting it to run o shit!!!! I think I can just remove second gene column, hold up though, going to let it run and see what happens, not sure how we will get to specify which series of treatments to look at
+Seems like optimum input file format is gene names in first column and treatments in all the rest
+
+Killed the job, would take forever running on command line to try all combos to determine parameters, Submit bash shell for that, 4:00:00 walltime to start, 6 Gb mem walltime=4:00:00,nodes=1:ppn=3,feature='intel14|intel16',mem=6gb
+Just submit as is, may have memory problems but we will get there when we get there
+
+$ qsub qsub_network_determine
+48664920.mgr-04.i
+
+
+
