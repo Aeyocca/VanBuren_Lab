@@ -111,3 +111,38 @@ fuck it, run with alpha = 20, mu = 0.8
 
 java networkCalcPackage.NetworkCalculator construct -d sedum_fixed_cut.txt -a 20 -c pcc -m 0.8 -o ./tmp -t 1 -M 0
 48685141.mgr-04.i
+walltime exceeded (had requested 4 hours)
+
+Alrighty, new information:
+Need to have two separate data frames, one for each treatment (C3 and CAM), run determine on both (run script twice), run construct on both (run script twice i think check help options again), run compare together, for the compare command, I believe you just point to the directory that contains the output from construct. That would make sense but not specified in help options
+Split the dataframes first:
+
+module load powertools
+dev 
+# random dev. node for testing (< 4 hrs)
+
+haha, just like ssh to dev node, he mentioned you can request a certain number of cores or something, I don't remember how, check out hpcc wiki
+
+[yoccaala@dev-intel16-k80 src]$ java networkCalcPackage.NetworkCalculator construct
+usage: java -jar jarfile.jar
+ -a <alpha>         alpha parameter for sigmoid adjacency calculation
+                    (i.e. 20)
+ -c <correlation>   correlation metric to use ('gini','pcc','spearman')
+ -d <datafile>      Data frame, tab delimited, with header, of per-gene,
+                    per-condition expression values
+ -h                 print this message
+ -m <mu>            mu parameter for sigmoid adjacency calculation (i.e.
+                    0.8)
+ -M <Mask>          parameter for masking matricies - values below this
+                    will be set to zero
+ -o <output>        Temporary Directory
+ -t <threads>       Number of Compute Threads
+ 
+ $java networkCalcPackage.NetworkCalclator construct -d sedum_C3.txt -c pcc -a 20 -m 0.8 -M 0 -o ./tmp -t 5
+
+
+Change walltime and ppn reqs: #PBS -l walltime=30:00:00,nodes=1:ppn=8,feature='intel14|intel16',mem=50gb
+[yoccaala@dev-intel16-k80 src]$ qsub qsub_network_construct_C3
+48716754.mgr-04.i
+[yoccaala@dev-intel16-k80 src]$ qsub qsub_network_construct_CAM
+48716757.mgr-04.i
