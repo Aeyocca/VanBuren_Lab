@@ -146,3 +146,10 @@ Change walltime and ppn reqs: #PBS -l walltime=30:00:00,nodes=1:ppn=8,feature='i
 48716754.mgr-04.i
 [yoccaala@dev-intel16-k80 src]$ qsub qsub_network_construct_CAM
 48716757.mgr-04.i
+
+30 hr walltime exceeded, bump ppn=16 and walltime=120:00:00
+C3
+48839861.mgr-04.i
+CAM
+48839862.mgr-04.i
+
