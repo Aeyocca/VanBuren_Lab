@@ -156,3 +156,16 @@ CAM
 
 Submitted about 30 hrs ago, still queued (sp?)
 
+11-06-17
+
+Those jobs still were not running so I submitted another one requesting 50 hr walltime instead of 120 hrs., but delete those since I did not change what directory they write the output to so would just overwrite the other runs and may change something.
+
+Jennifer told me instead of requesting 16 CPUs on 1 node, split it across 8 nodes with 2 CPUs from each node, keep the 50 hr walltime request, change the output directory to tmp_C3_cut and tmp_CAM_cut
+C3:
+49117688.mgr-04.i
+
+CAM:
+[yoccaala@gateway-03 src]$ qsub qsub_network_construct_CAM_cut
+49117692.mgr-04.i
+
+
