@@ -169,3 +169,14 @@ CAM:
 49117692.mgr-04.i
 
 
+11-07-17
+
+These jobs created an Adjacency.cytoscape.raw.tab file that was 73 Gb for C3 at one point, I only have 50 Gb allocated to me, so that filled up pretty quickly, I think the job may have stopped running. Anyway, if disk quota is exceeded, cannot simply rm files, so consulted this website: https://www.bfg.uni-freiburg.de/doc/bwgrid/bwgrid-faq/deleting-files-when-quota-exceeded which told me to do this:
+$ cp /dev/null $FILENAME #Makes file empty it seems
+$ rm $FILENAME
+
+Did this for both tmp_C3_cut and tmp_CAM_cut, then emptied those two folders, fill out a quota increase request form for 400 Gb just incase they get too big: hpcc: https://contact.icer.msu.edu/quota
+If that is denied or for some reason I need more space, ask Bob if he has / can request scratch space or /mnt/research space: https://wiki.hpcc.msu.edu/display/hpccdocs/HPCC+File+Systems
+"Thank you - your ticket number 32426 was created". Expect reply within 1-2 business days
+
+
