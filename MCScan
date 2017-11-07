@@ -3,3 +3,66 @@ Play around with MCScan and MCScanX, just kind of get familiar with them, I thin
 Would like to run a bunch of grass genomes through it to compare / contrast tandem gene duplicates across the grasses, but first:
 https://github.com/tanghaibao/jcvi/wiki/MCscan-(Python-version)
 
+Ayoooo fake it til you become it
+
+Installing dependencies for MCScan... I think I will do all this on local first, probably easier than trying to load things onto hpcc for now
+"LASTAL. Compile and then move lastal and lastdb on your PATH."
+went to link and downloaded last-894 folder, extracted all. Re ran cygwin setup.exe, added under Devel category gcc g++ and gcc core, made sure they were the same version (6.4 something I think), also added make. Needed to add zlib also, just searched for it, found it under lib category I believe. Then was able to run make from last-894 directory, took like a minute, believe it ran.
+Next step: move lastal and lastdb on PATH
+
+aeyocca@Larry /cygdrive/c/Users/aeyocca/Downloads/last-894/last-894
+$ PATH=/cygdrive/c/Users/aeyocca/Downloads/last-894/last-894/src/lastal
+lastal.cc    lastal.exe   lastal.o     lastal.o8    lastal8.exe
+
+aeyocca@Larry /cygdrive/c/Users/aeyocca/Downloads/last-894/last-894
+$ PATH=/cygdrive/c/Users/aeyocca/Downloads/last-894/last-894/src/lastal.exe
+
+aeyocca@Larry /cygdrive/c/Users/aeyocca/Downloads/last-894/last-894
+$ PATH=/cygdrive/c/Users/aeyocca/Downloads/last-894/last-894/src/lastdb
+lastdb.cc    lastdb.exe   lastdb.o     lastdb.o8    lastdb8.exe
+
+aeyocca@Larry /cygdrive/c/Users/aeyocca/Downloads/last-894/last-894
+$ PATH=/cygdrive/c/Users/aeyocca/Downloads/last-894/last-894/src/lastdb.exe
+
+Pretty sure I wanted the .exe files, Seems like .cc is the uncomplied file that was compiled using make and .exe I am assuming means its executable
+
+Next: "Optional SCIP. You'll need the executable scip on your PATH. You can also download a copy from here."
+Downloaded his file from his github but I dont think it will work, If this all works I think its a good idea to move things out of my downloads folder, might want to start deleting things in there
+
+Lets roll like that scip thing worked.
+
+Follow this tutorial to get python up and running: https://www.davidbaumgold.com/tutorials/set-up-python-windows/
+Looks like it works, back to MCScan tutorial
+Need to get jcvi package somehow
+Got it in /cygdrive/c/Python36/packages/jcvi directory, tried to run and said there was a syntax error. Ill take that as the version of python I'm running doesn't recognize the syntax. The github page was last editied on sept 3 2013, so downloading python 2.7.6 which came out in November 2013, hopefully that works
+Installed in /cygdrive/c/Python27 directory... need to remove Python36 paths and replace with Python27
+
+$ PATH=$PATH:/cygdrive/c/Python27
+$ PATH=$PATH:/cygdrive/c/Python27/Tools/Scripts
+$ python --version
+  Python 2.7.6
+$ cd /cygdrive/c/Python27
+$ mkdir packages
+$ cd packages
+$ cp -r /cygdrive/c/Python36/packages/jcvi .
+$ cd jcvic
+$ python -m jcvi.apps.fetch phytozome
+
+Need to find the Bio module, turns out this python version doesn't have pip, hahaha, tried manually installing pip, didn't work
+Turns out jcvi was updated about a month ago so go to python version that comes with pip (>=2.7.9)
+
+Lets take 2.7.13
+Something not working, try installing python 2.7.14 through cygwin
+Add pip 
+$ python2 -m ensurepip
+$ pip install Biopython
+$ python -m jcvi.apps.fetch phytozome
+
+It worked!!!!
+
+Move to /cygdrive/c/Users/aeyocca/Documents/1_MSU/VanBuren.../MSCan directory, copy over jcvi package so it runs
+$ python -m jcvi.apps.fetch phytozome Vvinifera,Ppersica
+
+Side notes if I want to move this to hpcc, seems I will need to run >=2.7.9 python version, maybe not any 3 versions though. put jcvi package in same directory where I will run commands from, install Biopython module with pip
+
+Downloading the files in this package used curl in active mode, no idea what that means, that may be the best way to go about things, however it was not working for me, so need to download the files in passive mode by specifying --disable-epsv in the curl command, going to try to fix this in the fetch.py script, pretty hard to find, I think I will just forget about it, will probably save time just manuallly downloading them
