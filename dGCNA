@@ -179,4 +179,11 @@ Did this for both tmp_C3_cut and tmp_CAM_cut, then emptied those two folders, fi
 If that is denied or for some reason I need more space, ask Bob if he has / can request scratch space or /mnt/research space: https://wiki.hpcc.msu.edu/display/hpccdocs/HPCC+File+Systems
 "Thank you - your ticket number 32426 was created". Expect reply within 1-2 business days
 
+Request accepted!!!
+[yoccaala@dev-intel14 src]$ qsub qsub_network_construct_C3_cut
+49186923.mgr-04.i
+[yoccaala@dev-intel14 src]$ qsub qsub_network_construct_Cam_cut
+qsub: script file 'qsub_network_construct_Cam_cut' cannot be loaded - No such file or directory
+[yoccaala@dev-intel14 src]$ qsub qsub_network_construct_CAM_cut
+49186930.mgr-04.i
 
