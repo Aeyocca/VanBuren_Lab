@@ -90,3 +90,36 @@ Nope, seems like numpy build didn't work
 I think I'm going to cut my losses and make virtual environment on hpcc since clearly something is up with cygwin nonsense
 hpcc virtual environment stuff: https://wiki.hpcc.msu.edu/display/hpccdocs/Using+Python+virtualenv+on+the+HPCC
 python virtual environment stuff: https://pypi.python.org/pypi/virtualenv
+
+Latest version of python as I'm writing this is 3.6 something I believe, latest for hpcc is 3.5.3 so I think I will roll with that and see if it works, if not, they have some 2.7 versions, the Biopython can only be run on 2.7.2, lets roll with that
+
+Got all these before launching into virtual env. Python is default version, NumPy and SciPy loaded without specifying version:
+Currently Loaded Modules:
+  1) GNU/4.4.5        5) MATLAB/R2014a    9)  Python/2.7.2      13) MKL/10.3
+  2) OpenMPI/1.4.3    6) R/2.15.1         10) Biopython/1.65
+  3) TBB/4.1.0        7) Boost/1.47.0     11) SciPy/0.9.0
+  4) CMake/2.8.5      8) Stata/15.0.SE    12) NumPy/1.6.1
+  
+It automatically shifted me to MKL/10.3 from 11 something
+Load Biopython too
+
+Took the ?passive=yes thing off of the url in the fetch.py script and ayooo, don't need to manually download files
+$ pip install networkx
+successful
+$ python -m jcvi.compara.catalog ortholog grape peach
+lastal and lastdb thing not working
+
+
+$ virtualenv MCScan
+$ source MCScan/bin/activate #launches into virtual environment with those modules loaded previously
+Next time can just do source after loading modules instead of virtualenv
+
+Next steps: make mcscan directory (lowercase so don't have to make upper all the time) in 01_VanBuren directory, throw jcvi folder in there, also put lastal/lastdb .exe files (i think that will work) in ~/MCScan/bin/ directory
+
+not recognizing lastal/lastdb, maybe because I built it on cygwin or something, anyway, delete all the lastal files, load unzipped file to hpcc, and use make command.
+to compile on hpcc, 
+$  make CXXFLAGS=-O3 #add that flag since earlier got the error message cc1plus: error: unrecognized command line option "-std=c++11"
+
+lordy lordy lordy finally looks like that did it..... hmm lastal: I was installed here with multi-threading disabled.
+Alright, what I know: compiled lastal with multithreading disabled which is a problem, so I'm going to delete everything and reload the uncompiled version first
+Need to compile with a newer compiler, thats the next step, could maybe do that tonight cuz I'm going hommmmeeee.e....
