@@ -66,3 +66,24 @@ $ python -m jcvi.apps.fetch phytozome Vvinifera,Ppersica
 Side notes if I want to move this to hpcc, seems I will need to run >=2.7.9 python version, maybe not any 3 versions though. put jcvi package in same directory where I will run commands from, install Biopython module with pip
 
 Downloading the files in this package used curl in active mode, no idea what that means, that may be the best way to go about things, however it was not working for me, so need to download the files in passive mode by specifying --disable-epsv in the curl command, going to try to fix this in the fetch.py script, pretty hard to find, I think I will just forget about it, will probably save time just manuallly downloading them
+
+Run the python thing, that will spit out the ftp address you need,
+$ curl <ftp address> --output <output_name> --disable-epsv
+Vvinifera gff3: ftp://ftp.jgi-psf.org/pub/compgen/phytozome/v9.0/Vvinifera/annotation/Vvinifera_145_gene.gff3.gz --output Vvinifera_145_gene.gff3.gz
+Vvinifera cds: ftp://ftp.jgi-psf.org/pub/compgen/phytozome/v9.0/Vvinifera/annotation/Vvinifera_145_cds.fa.gz --output Vvinifera_145_cds.fa.gz
+Ppersica gff3: ftp://ftp.jgi-psf.org/pub/compgen/phytozome/v9.0/Ppersica/annotation/Ppersica_139_gene.gff3.gz  --output Ppersica_139_gene.gff3.gz
+Ppersica cds: ftp://ftp.jgi-psf.org/pub/compgen/phytozome/v9.0/Ppersica/annotation/Ppersica_139_cds.fa.gz --output Ppersica_139_cds.fa.gz
+
+Convert gff to bed: ex python -m jcvi.formats.gff bed --type=mRNA --key=Name Vvinifera_145_gene.gff3.gz -o grape.bed
+
+Next step is pairwise synteny search: need 
+$ pip install networkx
+$ python -m jcvi.compara.catalog ortholog grape peach
+
+Need to add lastal and lastbd to path
+copied lastal.exe and lastdb.exe to /bin directory, added /bin directory to path, then it worked. 
+$ pip install scipy
+that didn't work, seems I need numpy+mkl wheel file found here: https://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy
+but for reasons unknown to me, had to change the file name to numpy-1.13.3+mkl-cp27-none-any.whl for it to work, lets try scipy now that didn't work, lets try file renaming nonsense for scipy, it all downloaded, lets see if it works.
+Nope, seems like numpy build didn't work
+I think I'm going to cut my losses and make virtual environment on hpcc since clearly something is up with cygwin nonsense
