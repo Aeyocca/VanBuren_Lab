@@ -65,6 +65,7 @@ $ python -m jcvi.apps.fetch phytozome Vvinifera,Ppersica
 
 Side notes if I want to move this to hpcc, seems I will need to run >=2.7.9 python version, maybe not any 3 versions though. put jcvi package in same directory where I will run commands from, install Biopython module with pip
 
+11-08-17
 Downloading the files in this package used curl in active mode, no idea what that means, that may be the best way to go about things, however it was not working for me, so need to download the files in passive mode by specifying --disable-epsv in the curl command, going to try to fix this in the fetch.py script, pretty hard to find, I think I will just forget about it, will probably save time just manuallly downloading them
 
 Run the python thing, that will spit out the ftp address you need,
@@ -87,3 +88,5 @@ that didn't work, seems I need numpy+mkl wheel file found here: https://www.lfd.
 but for reasons unknown to me, had to change the file name to numpy-1.13.3+mkl-cp27-none-any.whl for it to work, lets try scipy now that didn't work, lets try file renaming nonsense for scipy, it all downloaded, lets see if it works.
 Nope, seems like numpy build didn't work
 I think I'm going to cut my losses and make virtual environment on hpcc since clearly something is up with cygwin nonsense
+hpcc virtual environment stuff: https://wiki.hpcc.msu.edu/display/hpccdocs/Using+Python+virtualenv+on+the+HPCC
+python virtual environment stuff: https://pypi.python.org/pypi/virtualenv
