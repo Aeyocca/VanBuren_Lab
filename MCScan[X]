@@ -123,3 +123,54 @@ $  make CXXFLAGS=-O3 #add that flag since earlier got the error message cc1plus:
 lordy lordy lordy finally looks like that did it..... hmm lastal: I was installed here with multi-threading disabled.
 Alright, what I know: compiled lastal with multithreading disabled which is a problem, so I'm going to delete everything and reload the uncompiled version first
 Need to compile with a newer compiler, thats the next step, could maybe do that tonight cuz I'm going hommmmeeee.e....
+
+11-09-17
+My mission now is to figure out how to compile the lastal and lastdb files so I can execute them. Not able to compile now because of following error message:  unrecognized command line option "-std=c++11"
+Looked online, seems it is because g++ is out of date, they say the option -std=c++11 is only available in g++>=4.3 but:
+$ g++ --version
+g++ (GCC) 4.4.7 20120313 (Red Hat 4.4.7-17)
+Copyright (C) 2010 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+They say a wrap around is to specify -std=c++0x which I think is a possible edit to the make file, but make file is binary so can't edit :/
+Thought about upgrading g++, but some message came up on hpcc saying carefull. Maybe could try to compile locally, check python bit version on hpcc:
+>>> import struct
+>>> print struct.calcsize("P") * 8
+64
+
+So is local, WHY YOU NO COMPILE CORRECTLY ON LOCAL, SHOULD WORK, maybe get same python version.. shouldn't matter really
+Search the error message a little more, not able to edit make file, see if i can run g++ on command line instead
+That didn't work, spit out a bunch of file specific error messages like things were defined incorrectly or something, I have the lastal and lastdb files still that were compiled without multithreading, I got the help message by typing lastal on the command line... but says it isn't found when running python script, try throwing lastal / lastdb in some mcscan directories, nope..
+Nevermind, wasn't in virtual environment, now in there and able to reproduce the compilesd with multi-threading disabled. Going to try compiling locally and copying and see what happens:
+compiling locally didn't work, saw could override -std=c++11 flag by 
+$ make CXXFLAGS='-std=c++0x'
+spit out some error messages on some scripts, but compiled lastal and lastdb (made the .exe files), see if they work
+lastal not found
+Son of a gun, lastal and lastdb are 32 bit, but it worked locally, how did it end up 32 bit, nevermind, PE32+ means 64 bit, yea duh
+Everywhere online says it should be that the files and the system are not the same bit but it looks like they are, no idea why they cannot read it
+Try deleting all files except last ones
+
+Can't figure it out really, just move onto MCScanX, IVE WASTED SO MUCH TIMEEEEEEE. I almost refuse to give up
+Download MCScanX from online UGA website, unzip, compile on hpcc using make, follow tutorial for at and vvinifera:
+$ ./MCScanX data/at_vv #yes there is a /s (space) there so use MCScanX executable on the preinstalled data/ directory
+I think this comes with the tutorial files preloaded, need blast and gff, blast will contain both at and vv, their gff has both together in 1 file
+output is a bunch of html files for each organism's chromosome. Also /data/at_vv.collinearity and data/at_vv.tandem
+reading the readme to see what I can do next, I guess I want to define tandem duplicates, want to look at tandem duplicates across the grasses, also need to define homologs then to see if grasses share same tandem duplicates. Lets just do at vs vvinifera for now because come preinstalled with blast and gff files
+Ah, there is example dot.ctl in downstream_analysis/ directory that explains it, MAKE SURE YOU HAVE TABS AFTER NUMBERS / CHR POSITIONS BEFORE //
+
+[yoccaala@dev-intel14-k20 MCScanX]$ ./duplicate_gene_classifier data/at
+Reading BLAST file and pre-processing
+Generating BLAST list
+54980 matches imported (40847 discarded)
+15 pairwise comparisons
+211 alignments generated
+Type of dup     Code    Number
+Singleton       0       5298
+Dispersed       1       10460
+Proximal        2       1045
+Tandem  3       3002
+WGD or segmental        4       7364
+
+awesome, have .gene_type file that has geneID \t code
+plot duplicate genes across genome? table with # / size of tandem duplicates, histogram of which ones shared? How to display differential retention / loss??
