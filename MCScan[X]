@@ -174,3 +174,12 @@ WGD or segmental        4       7364
 
 awesome, have .gene_type file that has geneID \t code
 plot duplicate genes across genome? table with # / size of tandem duplicates, histogram of which ones shared? How to display differential retention / loss??
+
+11-14-17
+plan moving forward:
+- practice tandem duplicate caller on >2 genomes
+- Download necessary files for 5 grass species
+- tandem duplicate caller on the 5 species
+- compare them:
+  - Number in each species
+  - Which they have in common
