@@ -193,3 +193,69 @@ plan moving forward:
 
 Plot tandem duplicates across genome
 Download at.gff and at.tandem, all notes now moving to R markdown
+
+
+Part of the readme for MCScanX:
+5) circle_plotter.java
+This Java scripts generates a circular plot which links all the collinear blocks with curved li
+nes between and within the chromosomes given by users.
+
+Usage:"java circle_plotter -g gff_file -s collinearity_file -c control_file -o output_PNG_file"
+
+6) bar_plotter.java
+This Java scripts generates a bar plot displaying chromosome rearrangement between reference an
+d target chromosome sets given by users.
+
+Usage:"java bar_plotter -g gff_file -s collinearity_file -c control_file -o output_PNG_file"
+
+7) add_ka_and_ks_to_collinearity.pl
+This program calculates the Ka & Ks value of each collinear gene pair shown in the MCScanX outp
+ut ".collinearity". BLAST and Bio-perl are needed for executing this program.
+
+Usage:"perl add_ka_and_ks_to_collinearity.pl -i collinearity_file -d cds_file -o output_file"
+
+8) group_collinear_genes.pl
+This program groups genes through connecting collinear genes until any gene in each group has no collinear gene outside the group. This analysis can be used to construct gene families based on collinear relationships.
+
+Usage:"perl group_collinear_genes.pl -i collinearity_file -o output_file"
+
+9) detect_collinearity_within_gene_families.pl
+This program detects collinear gene pairs within gene families.
+
+Usage:"perl detect_collinearity_within_gene_families.pl -i gene_family_file -d collinearity_file  -o output_file"
+
+10) origin_enrichment_analysis.pl
+This program identifies potential enrichment of duplicate gene origins for input gene families according to the result of duplicate_gene_classifier.
+
+Usage:"perl origin_enrichment_analysis.pl -i gene_family_file -d gene_type_file  -o output_file"
+
+11) family_circle_plotter.java
+This java script generates a circular plot which links all collinear genes within a gene family with red curved lines, and places the gene family collinearity into a genomic collinearity background.
+
+Usage:"java family_circle_plotter -g gff_file -s collinearity_file -c control_file -f gene_family_file -o output_PNG_file"
+
+12) family_tree_plotter.java/family_tree_plotter_show_length.java
+This java script displays a gene family tree on which collinear gene pairs and tandem gene groups are connected with red and blue curves respectively. The former script does not show branch length while the latter script does.
+
+Usage:"java family_tree_plotter -t tree_file -s collinearity_file -o output_PNG_file" (show collinear gene pairs only) or
+"java family_tree_plotter -t tree_file -s collinearity_file -d tandem_pair_file -o output_PNG_file" (show both tandem and collinear gene pairs)
+
+13) family_tree_plotter_chr.java
+This java script displays a gene family tree on which collinear gene pairs and tandem gene groups are connected with red and blue curves respectively, and each gene of the tree is linked to its position on chromosomes whose synteny is shown.
+
+Usage:"java family_tree_plotter_chr -t tree_file -g gff_file -s collinearity_file -o output_PNG_file" (show collinear gene pairs only) or
+"java family_tree_plotter_chr -t tree_file -g gff_file -s collinearity_file -d tandem_pair_file -o output_PNG_file" (show both tandem and collinear gene pairs)
+
+
+
+Working on circle plot thing, getting error message, module load JDK/jdk1.8.0 didn't work. module load Java/jdk1.8.0
+try the earlier one, maybe its just a circle plot problem
+Usage:"java dot_plotter -g gff_file -s collinearity_file -c control_file -o output_PNG_file"
+That one worked.... maybe its the control file? Yup, there are different control files for different graphs, taking a little bit to run, maybe shouldn't have put in every chromosome for both at and grape, only took about 30 seconds, lets see how it looks
+
+Ran bar plotter with the dot plot ctl file, its a picture of all reference chromosomes with patches of query chromosomes splattered all over them
+
+What to do next?:
+- Lets get 5 grass .gff files and .blast, blast is direct BLASTP output of m8 format, I think just the genomes you want against each other
+- Check out numbers of tandem duplicates across them
+- Not sure what the other questions are, or how to get a good idea of them
