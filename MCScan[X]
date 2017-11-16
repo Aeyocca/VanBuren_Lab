@@ -194,7 +194,7 @@ plan moving forward:
 Plot tandem duplicates across genome
 Download at.gff and at.tandem, all notes now moving to R markdown
 
-
+11-16-17
 Part of the readme for MCScanX:
 5) circle_plotter.java
 This Java scripts generates a circular plot which links all the collinear blocks with curved li
@@ -259,3 +259,41 @@ What to do next?:
 - Lets get 5 grass .gff files and .blast, blast is direct BLASTP output of m8 format, I think just the genomes you want against each other
 - Check out numbers of tandem duplicates across them
 - Not sure what the other questions are, or how to get a good idea of them
+- Compare to published numbers
+- See what pathways they are involved in:
+  - GO terms for each genes or such in phytozome, getting link to plug into enrichment program
+  - Do enrichment for each species
+  - Hopefully, hypothesis is tandem involved in domestication traits in crops
+  - Try to find share homologous comparisons, cross reference ID tandem with homologous gene pair list, ideally do some more filtering, but for now this is good
+  - Interested how many conserved between species.
+  - all sorts of comparisons 
+  - could integrate gene expression data, look for sub / psuedofunctional evidence, start in one species between tandem duplicates, could do enrichment on just the highly expressed tandem duplicates, could look at different tissues for signs of subfunctionalization. 
+
+Pick grass species: Originally picked a few off phytozome, but found gff files more easily on PlantGDB
+
+Oryza sativa
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/OsGDB/Osativa_193_gene.gff3.bz2
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/OsGDB/Osativa_193_cds.fa.bz2
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/OsGDB/Osativa_193_peptide.fa.bz2
+Zea mays 
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/ZmGDB/ZmB73_5a.59_WGS.gff.bz2
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/ZmGDB/ZmB73_5a_WGS_cds.fasta
+  [yoccaala@dev-intel14 data]$ wget ftp://ftp.gramene.org/pub/gramene/maizesequence.org/release-3a.50/working_set_translations.fasta
+Brachypodium distachyon 
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/BdGDB/Bdistachyon_192_gene.gff3.bz2
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/BdGDB/Bdistachyon_192_cds.fa.bz2
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/BdGDB/Bdistachyon_192_peptide.fa.bz2
+Sorghum bicolor
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/SbGDB/Sbicolor_79_gene.gff3.gz
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/SbGDB/Sbicolor_79_cds.fa.gz
+  [yoccaala@dev-intel14 data]$ wget http://www.plantgdb.org/download/Download/xGDB/SbGDB/Sbicolor_79_peptide.fa.gz
+Just do those 4 for now
+Not sure where to get maize peptide file from so just the three for now I guess
+
+combine all cds files, convert into database, then search against itself, right?
+alrighty, need to download peptide files which is like fasta but has protein sequences instead, since trying to do BLASTP search, needs to be AA sequence vs AA sequence, keep fasta files of nucleotides just incase. 
+Maize protein file is "working gene set" whatever that means
+
+
+Lets do db on smallest file and do test run
+
