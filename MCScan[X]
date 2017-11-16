@@ -152,12 +152,16 @@ Everywhere online says it should be that the files and the system are not the sa
 Try deleting all files except last ones
 
 Can't figure it out really, just move onto MCScanX, IVE WASTED SO MUCH TIMEEEEEEE. I almost refuse to give up
+
+
+MCScanX
+
 Download MCScanX from online UGA website, unzip, compile on hpcc using make, follow tutorial for at and vvinifera:
 $ ./MCScanX data/at_vv #yes there is a /s (space) there so use MCScanX executable on the preinstalled data/ directory
 I think this comes with the tutorial files preloaded, need blast and gff, blast will contain both at and vv, their gff has both together in 1 file
 output is a bunch of html files for each organism's chromosome. Also /data/at_vv.collinearity and data/at_vv.tandem
 reading the readme to see what I can do next, I guess I want to define tandem duplicates, want to look at tandem duplicates across the grasses, also need to define homologs then to see if grasses share same tandem duplicates. Lets just do at vs vvinifera for now because come preinstalled with blast and gff files
-Ah, there is example dot.ctl in downstream_analysis/ directory that explains it, MAKE SURE YOU HAVE TABS AFTER NUMBERS / CHR POSITIONS BEFORE //
+Ah, there is example dot.ctl in downstream_analysis/ directory that explains it, MAKE SURE YOU HAVE TABS AFTER NUMBERS & CHR POSITIONS BEFORE //
 
 [yoccaala@dev-intel14-k20 MCScanX]$ ./duplicate_gene_classifier data/at
 Reading BLAST file and pre-processing
@@ -183,3 +187,9 @@ plan moving forward:
 - compare them:
   - Number in each species
   - Which they have in common
+  
+.bed files have Chrom Start Stop  Name  Score Strand, more possible: https://genome.ucsc.edu/FAQ/FAQformat.html
+.gff has Chrom  Start Stop  Start End, nice
+
+Plot tandem duplicates across genome
+Download at.gff and at.tandem, all notes now moving to R markdown
