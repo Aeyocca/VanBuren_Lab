@@ -187,3 +187,7 @@ qsub: script file 'qsub_network_construct_Cam_cut' cannot be loaded - No such fi
 [yoccaala@dev-intel14 src]$ qsub qsub_network_construct_CAM_cut
 49186930.mgr-04.i
 
+
+C3 cut1 finished yesterday! lets check it out, this is what I ran it with #PBS -l walltime=140:00:00,nodes=8:ppn=2,feature='intel14|intel16',mem=50gb
+in tmp_C3_cut1 directory, got a Cluster/ directory with 189 different cluster txt files hopefully with gene IDs, lets see, YAWWWWWWWWWWWWWWWWWWWWWWWWW, finally making progress with this after like two weeks which is exciting, but probably have to put on backburner with proposal and test coming up..... pretting exciting though for later
+
