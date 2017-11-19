@@ -194,3 +194,6 @@ in tmp_C3_cut1 directory, got a Cluster/ directory with 189 different cluster tx
 I dont think CAM construct worked so submit that:
 [yoccaala@dev-intel14 src]$ qsub qsub_network_construct_CAM_cut1
 49629672.mgr-04.i
+fix directories really quick:
+[yoccaala@dev-intel14 src]$ qsub qsub_network_construct_CAM_cut1
+49631526.mgr-04.i
