@@ -292,8 +292,70 @@ Not sure where to get maize peptide file from so just the three for now I guess
 
 combine all cds files, convert into database, then search against itself, right?
 alrighty, need to download peptide files which is like fasta but has protein sequences instead, since trying to do BLASTP search, needs to be AA sequence vs AA sequence, keep fasta files of nucleotides just incase. 
-Maize protein file is "working gene set" whatever that means
+Maize protein file is "working gene set" whatever that means, seemed small but I guess genic part for maize can be small even if genome is huge since TE and such
 
+11-17-17
+Lets do db on smallest file and do test run:
+$ module load BLAST
+$ formatdb -i ZmB73_peptide.fa -o T -p T
+#in formatdb.log file, alright are there really 148k protein coding sequences? No way, are there even that many spliceforms??? Wheres that number coming from??
+Formatted 147837 sequences in volume 0
+$ formatdb -i Bdistachyon_192_peptide.fa -o T -p T
+Formatted 31029 sequences in volume 0
 
-Lets do db on smallest file and do test run
+$ head ZmB73_peptide.fa > head_maize.fa
+$ blastall -i head_maize.fa -d Bdistachyon_192_peptide.fa -p blastp
+#successsss, looks good, lets try combining two fa files then formatting as database and search head_maize against it to see if that works
 
+[yoccaala@dev-intel14 data]$ cat Bdistachyon_192_peptide.fa Osativa_193_peptide.fa > bd_os_peptide.fa
+[yoccaala@dev-intel14 data]$ formatdb -i bd_os_peptide.fa -o T -p T
+[yoccaala@dev-intel14 data]$ blastall -i head_maize.fa -d bd_os_peptide.fa -p blastp
+
+Combined:
+Matrix: BLOSUM62
+Gap Penalties: Existence: 11, Extension: 1
+Number of Sequences: 97367
+Number of Hits to DB: 31,647,524
+Number of extensions: 1548933
+Number of successful extensions: 3567
+Number of sequences better than 10.0: 129
+Number of HSP's gapped: 3559
+Number of HSP's successfully gapped: 129
+Length of database: 42,821,810
+Neighboring words threshold: 11
+Window for multiple hits: 40
+X1: 16 ( 7.5 bits)
+X2: 38 (14.6 bits)
+X3: 64 (24.7 bits)
+S1: 40 (21.7 bits)
+S2: 58 (26.9 bits)
+
+Just bdist
+Matrix: BLOSUM62
+Gap Penalties: Existence: 11, Extension: 1
+Number of Sequences: 31029
+Number of Hits to DB: 9,662,686
+Number of extensions: 464602
+Number of successful extensions: 1138
+Number of sequences better than 10.0: 46
+Number of HSP's gapped: 1135
+Number of HSP's successfully gapped: 47
+Length of database: 13,212,686
+Neighboring words threshold: 11
+Window for multiple hits: 40
+X1: 16 ( 7.5 bits)
+X2: 38 (14.6 bits)
+X3: 64 (24.7 bits)
+S1: 40 (21.7 bits)
+S2: 53 (25.0 bits)
+
+yea it checks out, combine them all the submit bash script
+
+[yoccaala@dev-intel14 data]$ cat Osativa_193_peptide.fa Bdistachyon_192_peptide.fa ZmB73_peptide.fa Sbicolor_79_peptide.fa > grass_peptide.fa
+[yoccaala@dev-intel14 data]$ formatdb -i grass_peptide.fa -o T -p T
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_grass.sh
+49489922.mgr-04.i
+
+11-19-17
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_grass.sh
+49629105.mgr-04.i
