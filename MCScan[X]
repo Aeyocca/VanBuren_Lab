@@ -359,3 +359,59 @@ yea it checks out, combine them all the submit bash script
 11-19-17
 [yoccaala@dev-intel14 data]$ qsub qsub_blastall_grass.sh
 49629105.mgr-04.i
+
+
+11-27-17
+Damn, its been a while
+doesnt look like it worked, try combining heads of os and bd and see if can search against itself
+
+[yoccaala@dev-intel14 data]$ head -n24 Osativa_192_peptide.fa > head_os_peptide.fa
+[yoccaala@dev-intel14 data]$ head -n15 Bdistachyon_192_peptide.fa > head_bd_peptide.fa
+[yoccaala@dev-intel14 data]$ cat head_os_peptide.fa head_bd_peptide.fa > head_bd_os_peptide.fa
+[yoccaala@dev-intel14 data]$ formatdb -i head_bd_os_peptide.fa -o T -p T
+-bash: formatdb: command not found
+[yoccaala@dev-intel14 data]$ module load BLAST
+[yoccaala@dev-intel14 data]$ formatdb -i head_bd_os_peptide.fa -o T -p T
+
+actually I think it worked just fine, output file is 1.9Gb large, indexed names might be messed up, o well cross that bridge when we get there. Moving on
+
+combine all gff files
+[yoccaala@dev-intel14 data]$ cat Osativa_193_gene.gff3 Bdistachyon_192_gene.gff3 ZmB73_5a.59_WGS.gff Sbicolor_79_gene.gff3 > grass_all.gff
+
+rename grass_blastall.out to grass_all.blast to match file naming for MCScanX
+move up one directory
+./MCScanX data/grass_all ...hmm didn't work
+.blast file looks completely different, read up on that a bit on how to get what they have
+indeed it was the blastall command, needed a few extra flags, resubmit that script and let it run
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_grass.sh
+50018348.mgr-04.i
+
+11-28-17
+Blastall error: [blastall] ERROR: SeqPortNew: lcl|6..
+quick google search showed it is probably an error when I went to make the database, try making the database with -p F and see whats up
+The blastall output looks fine, remake db, resubmit blastall with different name, then run MCScanX on previous blastall output
+
+[yoccaala@dev-intel16-k80 data]$ cat Osativa_193_peptide.fa Bdistachyon_192_peptide.fa Sbicolor_79_peptide.fa ZmB73_peptide.fa > grass_peptide_pf.fa
+[yoccaala@dev-intel16-k80 data]$ module load BLAST
+[yoccaala@dev-intel16-k80 data]$ formatdb -i grass_peptide_pf.fa -o F -p F
+
+Got a large amount of this error: [formatdb] WARNING: Sequence number 274652 (lcl|12516_grass_peptide_pf.fa), 17 illegal characters were removed:
+2 Es, 2 Fs, 1 I, 9 Ls, 3 Ps
+o whale, mooo ve on 
+
+[yoccaala@dev-intel16-k80 data]$ qsub qsub_blastall_grass_pf.sh
+50031459.mgr-04.i
+
+[yoccaala@dev-intel16-k80 MCScanX]$ ./MCScanX data/grass_all
+didn't work so I guess we are waiting for the other database to build
+[yoccaala@dev-intel16-k80 data]$ blastall -i grass_peptide_pf.fa -d grass_peptide_pf.fa -p blastp -e 1e-10 -b 5 -v 5 -m 8 -o grass_all_pf.blast
+[blastall] FATAL ERROR: ChrUn.fgenesh.mRNA.8|PACid:21882472: Database grass_peptide_pf.fa was not found or does not exist
+
+maybe its that I am searching a database against a database, lets try to rename database when I make it, then do sequence file vs. database
+
+[yoccaala@dev-intel16-k80 data]$ formatdb -i grass_peptide_pf.fa -o T -p T -n grass_peptide_pf_db
+[yoccaala@dev-intel16-k80 data]$ qsub qsub_blastall_grass_pf.sh
+50039074.mgr-04.i
+
+
+
