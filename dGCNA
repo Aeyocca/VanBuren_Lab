@@ -197,3 +197,59 @@ I dont think CAM construct worked so submit that:
 fix directories really quick:
 [yoccaala@dev-intel14 src]$ qsub qsub_network_construct_CAM_cut1
 49631526.mgr-04.i
+
+
+11-28-17
+my good directories are tmp_C3_cut1 and tmp_CAM_cut1
+Next step after construct: compare I believe
+
+module load Java/jdk1.8.0
+
+export CLASSPATH=${CLASSPATH}:.
+export CLASSPATH=${CLASSPATH}:commons-lang3-3.6.jar
+export CLASSPATH=${CLASSPATH}:commons-math3-3.6.1.jar
+export CLASSPATH=${CLASSPATH}:commons-cli-1.4.jar
+export CLASSPATH=${CLASSPATH}:jcommon-1.0.23.jar
+export CLASSPATH=${CLASSPATH}:jfreechart-1.0.19.jar
+
+[yoccaala@dev-intel16-k80 src]$ java networkCalcPackage.NetworkCalculator compare
+usage: java -jar jarfile.jar
+ -c <correlation>      correlation metric used for both networks
+ -e1 <expression1>     Expression Frame for Network 1
+ -e2 <expression2>     Expression Frame for Network 2
+ -h                    print this message
+ -MN <negativeMask>    Negative cutoff for elasticity network - default
+                       -0.01
+ -MP <positiveMask>    positive cutoff for elasticity network - default
+                       0.01
+ -na <negativeAlpha>   alpha for negative differential adjacency
+                       calculation
+ -nm <negativeMu>      mu for negative differential adjacency calculation
+ -o <output>           output file
+ -pa <positiveAlpha>   alpha for positive differential adjacency
+                       calculation
+ -pm <positiveMu>      mu for positive differential adjacency calculation
+ -t <threads>          number of processing threads
+
+Why the hell did I run construct if I am not going to do anything with those using the compare command? o whale, moo ve on, just go ahead and run comare on the command line first to make sure its running then submit job
+
+[yoccaala@dev-intel16-k80 src]$ java networkCalcPackage.NetworkCalculator compare -c pcc -e1 sedum_C3.txt -e2 sedum_CAM.txt -o compare_test.txt -na 0.05 -nm 0 -pa 0.05 -pm 0 -t 4
+
+No idea what to put for the positive / negative alpha / mu values. Left both as 0.05 and 0 respectively. Since I have so many nodes and ppn, leave threads at 1
+
+[yoccaala@dev-intel16-k80 src]$ qsub qsub_network_compare_CAM
+50042577.mgr-04.i
+
+[yoccaala@dev-intel16-k80 src]$ qsub qsub_network_compare_CAM
+50043463.mgr-04.i
+
+Not sure why I added the CAM tag, it inputs both expression matricies
+
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
+50044705.mgr-04.i
+for the above submission, increased memory request to 60Gb and added -Xmx:50g to java command
+
+Max heap size allowed by MSU hpcc is 32Gb, adjust and resubmit:
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
+50047874.mgr-04.i
+
