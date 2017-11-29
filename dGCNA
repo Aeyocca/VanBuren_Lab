@@ -253,3 +253,6 @@ Max heap size allowed by MSU hpcc is 32Gb, adjust and resubmit:
 [yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
 50047874.mgr-04.i
 
+Try again with 30g
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
+50049967.mgr-04.i
