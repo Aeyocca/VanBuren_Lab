@@ -256,3 +256,10 @@ Max heap size allowed by MSU hpcc is 32Gb, adjust and resubmit:
 Try again with 30g
 [yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
 50049967.mgr-04.i
+invalid max heap size again, try 15gigs I guess
+
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
+50073841.mgr-04.i
+
+need to start labeling what my suffixes are... what is the difference between regular and cut1, seems I had a successful run for both C3 and C3_cut1. according to the above, the only difference I see is that they are a separate run, will check qsubs to make sure, looks like the regular construct (without the cut1 suffix) may have been successful for C3 but not CAM so can just leave that one alone. Yea qsub scripts don't look any different except for output directory
+
