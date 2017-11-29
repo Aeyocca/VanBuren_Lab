@@ -416,5 +416,14 @@ maybe its that I am searching a database against a database, lets try to rename 
 
 job killed, walltime exceeded, also got that same error message, really need to figure that one out, maybe worth doing blastall on a website, check if that is possible 
 
+try this to ensure I tried it:
+[yoccaala@dev-intel14 data]$ module load BLAST
+[yoccaala@dev-intel14 data]$ formatdb -i grass_peptide_pf.fa -p T -o T
+
+change walltime to 12 hrs since not checking til tomorrow and exceeded walltime last time
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_grass_pf.sh
+50073815.mgr-04.i
+
+
 
 
