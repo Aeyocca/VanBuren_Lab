@@ -264,3 +264,11 @@ invalid max heap size again, try 15gigs I guess
 need to start labeling what my suffixes are... what is the difference between regular and cut1, seems I had a successful run for both C3 and C3_cut1. according to the above, the only difference I see is that they are a separate run, will check qsubs to make sure, looks like the regular construct (without the cut1 suffix) may have been successful for C3 but not CAM so can just leave that one alone. Yea qsub scripts don't look any different except for output directory
 
 15g also seems to be invalid max heap size, maybe the syntax is wrong, how the hell can construct run but not compare?
+32 bit maximum is 4 Gb, I think this is 64, but screw it, set to 4 Gb and run while I think about how else to solve problem
+[yoccaala@dev-intel14-k20 src]$ qsub qsub_network_compare_CAM
+50094091.mgr-04.i
+
+maybe the g is invalid, try running on command line down to 1 g, if g doesn't work, try 2048m (equal to 2 Gb) son of a bitch, I put -Xmx: with a colon. Its the colon thats invalid. Got it to start on command line with 30 Gb, so submit with 30 Gb
+
+[yoccaala@dev-intel14-k20 src]$ qsub qsub_network_compare_CAM
+50094184.mgr-04.i
