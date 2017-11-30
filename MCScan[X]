@@ -424,6 +424,31 @@ change walltime to 12 hrs since not checking til tomorrow and exceeded walltime 
 [yoccaala@dev-intel14 data]$ qsub qsub_blastall_grass_pf.sh
 50073815.mgr-04.i
 
+11-30-17
+going to make separate db for all species, search each against all
+
+[yoccaala@dev-intel14-k20 data]$ module load BLAST
+[yoccaala@dev-intel14-k20 data]$ formatdb -i Osativa_193_peptide.fa -o T -p T -n Osativa_193_db
+[yoccaala@dev-intel14-k20 data]$ formatdb -i Bdistachyon_192_peptide.fa -o T -p T -n Bdistachyon_192_db
+[yoccaala@dev-intel14-k20 data]$ formatdb -i Sbicolor_79_peptide.fa -o T -p T -n Sbicolor_79_db
+[yoccaala@dev-intel14-k20 data]$ formatdb -i ZmB73_5a_WGS_cds.fasta -o T -p T -n ZmB73_db
+
+Start on command line to see if it works, I think it will work, write separate submission script for 4 species:
+[yoccaala@dev-intel14-k20 data]$ blastall -p blastp -d "Osativa_193_db Bdistachyon_192_db Sbicolor_79_db ZmB73_db" -i Osativa_193_peptide.fa -e 1e-10 -b 5 -v 5 -m 8 -o Osativa_193.blast
+
+Since yesterday's script seemed to run a little slow for the 12 hours, kept 12 hour request but bumped up from 2 nodes, 4 ppn to 3 nodes, 8 ppn
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Osativa.sh
+50091582.mgr-04.i
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Bdistachyon.sh
+50091600.mgr-04.i
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_ZmB73.sh
+50091664.mgr-04.i
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Sbicolor.sh
+50091603.mgr-04.i
+
+
+
+
 
 
 
