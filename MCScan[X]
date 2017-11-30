@@ -446,8 +446,23 @@ Since yesterday's script seemed to run a little slow for the 12 hours, kept 12 h
 [yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Sbicolor.sh
 50091603.mgr-04.i
 
+Ran on command line, was getting same SeqPortNew error, so delete all the above
+lets try on command line, rice vs bdist
 
+consider blastdb_aliastool, I think I will try this next. Maybe my problem is the makedb command is changing something in my fasta file that makes it unusable as a query, to check if thats the case, will have to redownload one of the fasta files and search against a db I already created. 
 
+It seems the one vs. one db was running... try the blast alias thing, is it worth it? I think so especially if later I need to do this with >30 species... command not found
+ 
+The space separated list of dbs should work according the blastall documentation.. I think the problem might be when query is searched against itself, it certainly seems that way. In that case, edit the qsub scripts to just not include themselves as a db and I think we will be good, one last check to see if its the Osativa db though.. need to start bringing a hoodie in, its cold here
+
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Osativa.sh
+50092663.mgr-04.i
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Bdistachyon.sh
+50092664.mgr-04.i
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_Sbicolor.sh
+50092665.mgr-04.i
+[yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_ZmB73.sh
+50092667.mgr-04.i
 
 
 
