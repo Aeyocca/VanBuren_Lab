@@ -491,5 +491,7 @@ This one only has ~63k peptides, much better. renamed to what I had the old pept
 [yoccaala@dev-intel14 data]$ qsub qsub_blastall_ZmB73_incwalltime.sh
 50110457.mgr-04.i
 
+I think something is up with the rice file, look for another one
+
 
 
