@@ -277,3 +277,12 @@ add -XX:UseParallelGC -XX:ParallelGCThreads=15
 [yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
 50103951.mgr-04.i
 
+hpcc thread had typo, needed to add + sign to useprallelgc to turn that option on.. also did some more reading. Plan to change application threads to 4 (specified on command line by -t 4), also have 8 nodes and 2 ppn. Will 3 threads for parallel GC I THINK means 3x4 = at least 12+1=13 processors are required to do this. Did not have to add a + to the ParallelGCThreads=
+
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
+50110942.mgr-04.i
+
+Add -Xms30g
+[yoccaala@gateway-02 Error_files]$ qsub ../NetworkCalculator/src/qsub_network_compare_CAM
+50114470.mgr-04.i
+
