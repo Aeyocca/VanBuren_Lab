@@ -286,3 +286,13 @@ Add -Xms30g
 [yoccaala@gateway-02 Error_files]$ qsub ../NetworkCalculator/src/qsub_network_compare_CAM
 50114470.mgr-04.i
 
+I'm pretty lost with this one. maybe do some reading later, I really don't feel like it, something is up with it, keep running out of memory, maybe GC just isn't fast enough, one more shot with like 30 GC threads maybe that will work.
+
+add GC threads to 7, (app threads still -t 4), change to nodes=8:ppn=4
+[yoccaala@gateway-02 src]$ qsub qsub_network_compare_CAM
+50117742.mgr-04.i
+
+
+
+
+
