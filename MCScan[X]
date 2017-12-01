@@ -464,6 +464,32 @@ The space separated list of dbs should work according the blastall documentation
 [yoccaala@dev-intel14-k20 data]$ qsub qsub_blastall_ZmB73.sh
 50092667.mgr-04.i
 
+12-01-17
+Put in the wrong maize input file, the protein translated sequence file is ZmB73_peptide.fa
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_ZmB73.sh
+50109808.mgr-04.i
+
+The other ones are on about 7 hours of runtime and counting... hmmm alsoonly has about 44,000 lines in the output file. Wonder why it is going so slow? ~123,000 lines in the at.blast file that came with MCScanX
+Damn, only requested 12 hours of walltime, will probably exceed it
+Maybe its my data, maybe not. Peptide file for rice has 66,338 peptides. Should I delete ones on unknown chromosomes?
+31,029 for Bdistachyon, 29,448 for Sbicolor, 147,837 for maize.... definitely not right, check that file. go find another one for maize
+
+maybe the files only update every once in a while, because I checked the length of the files and they hadn't changed in 10 minutes, so I did ls -lth and found the time stamps were all over an hour old, and I definitely did not open them at their time stamp, so I didn't interrupt by opening the files.
+
+We are gonna grab one from gramene, here is the readme
+ 'pep.all' - the super-set of all translations resulting from Ensembl known
+     or novel gene predictions.
+There we go: ftp://ftp.ensemblgenomes.org/pub/plants/release-22/fasta/zea_mays/pep/Zea_mays.AGPv3.22.pep.all.fa.gz
+This one only has ~63k peptides, much better. renamed to what I had the old peptide.fa so don't have to delete / resubmit job.. still worried about the other blast ones running out of walltime though. Edit submission scripts to output .blast1 files LOOK THIS IS WHERE I ACTUALLY EXPLAIN A SUFFIX. Resubmit to run.. screw it just request 140 hrs walltime, 8 nodes, 3 ppn
+
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Osativa_incwalltime.sh
+50110448.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Bdistachyon_incwalltime.sh
+50110454.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Sbicolor_incwalltime.sh
+50110456.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_ZmB73_incwalltime.sh
+50110457.mgr-04.i
 
 
 
