@@ -272,3 +272,8 @@ maybe the g is invalid, try running on command line down to 1 g, if g doesn't wo
 
 [yoccaala@dev-intel14-k20 src]$ qsub qsub_network_compare_CAM
 50094184.mgr-04.i
+
+add -XX:UseParallelGC -XX:ParallelGCThreads=15
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_CAM
+50103951.mgr-04.i
+
