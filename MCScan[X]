@@ -490,8 +490,30 @@ This one only has ~63k peptides, much better. renamed to what I had the old pept
 50110456.mgr-04.i
 [yoccaala@dev-intel14 data]$ qsub qsub_blastall_ZmB73_incwalltime.sh
 50110457.mgr-04.i
+The above are at 3 hrs runtime at 4:30
+
 
 I think something is up with the rice file, look for another one
+Rice annotation project website, all.pep: http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/all.dir/all.pep
+renamed to Osativa_TIGR_peptide.fa
+make db, rewrite all qsubs to include this db, THIS DB AND QSUB ASSOCIATED WITH IT WILL HAVE A _TIGR TAG, THE BLAST OUTPUT FILES WILL HAVE .blast2 LOOKIE I EXPLAINED ANOTHER ONE, TWO IN ONE DAY YIPPIE
+submit those with same requests as .blast1 ones
+
+[yoccaala@dev-intel14 data]$ module load BLAST
+[yoccaala@dev-intel14 data]$ formatdb -i Osativa_TIGR_peptide.fa -o T -p T -n Osativa_db_TIGR
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Osativa_TIGR.sh
+50118034.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Sbicolor_TIGR.sh
+50118035.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Bdistachyon_TIGR.sh
+50118036.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_ZmB73_TIGR.sh
+50118037.mgr-04.i
+
+hot diggity damn, I think I might have actually solved it... we shall see. hopefully they freaking finish. Have to bring up with Bob how slow they are, lets check final numbers for blast run with 12 hr walltime request.. damn I deleted them already, I think I still have file size listed in stdout, check, yea, 5,6, and 7 Mb for Bdist,Sbi,and Os respectively, at blast alone was 32 Mb, damn, expecting 5X that output so... 5/160 = 1/32. 32x12 = 384 hours at this rate WITH NODES=8:PPN=3!! this is 100% a task that can be multithreaded. looks like there is a numthreads flag, "common to all BLAST+ applications" but can't run it on command line, seems like it recognizes -n as a flag to be T or F:
+[yoccaala@dev-intel14 data]$ blastall -p blastp -d "Bdistachyon_192_db Sbicolor_79_db ZmB73_db" -i Osativa_TIGR_peptide.fa -e 1e-10 -b 5 -v 5 -m 8 -o Osativa_TIGR.blast2 -num_threads 4
+[blastall] ERROR: MegaBlast search [um_threads] must be one of {'T', 't', 'F', 'f'} or omitted
+
 
 
 
