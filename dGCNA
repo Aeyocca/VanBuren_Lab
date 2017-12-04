@@ -292,7 +292,50 @@ add GC threads to 7, (app threads still -t 4), change to nodes=8:ppn=4
 [yoccaala@gateway-02 src]$ qsub qsub_network_compare_CAM
 50117742.mgr-04.i
 
+12-05-17
 
+man, still not running..... from what I see online, the problem is an object is being generated that is too big for the heap space (>30Gb wow!), perhaps there is an error in the code for a memory leak, if that is the case, I'm sending it back to the gentleman who wrote it because ain't no way I am able to figure that one out. Eh, give it a quick look anyway:
+a few things causing the errors: 
+java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: Java heap space
+        at java.util.concurrent.FutureTask.report(FutureTask.java:122)
+        at java.util.concurrent.FutureTask.get(FutureTask.java:192)
+        at networkCalcPackage.Operations.calculateDifferenceThreaded(Operations.java:498)
+        at networkCalcPackage.NetworkCalculator.compareNetworks(NetworkCalculator.java:977)
+        at networkCalcPackage.NetworkCalculator.main(NetworkCalculator.java:1225)
+Caused by: java.lang.OutOfMemoryError: Java heap space
+        at networkCalcPackage.ConcurrentProcessing.doWork_diff(ConcurrentProcessing.java:380)
+        at networkCalcPackage.ConcurrentProcessing.call(ConcurrentProcessing.java:60)
+        at networkCalcPackage.ConcurrentProcessing.call(ConcurrentProcessing.java:7)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        at java.lang.Thread.run(Thread.java:745)
+        Finding negative elasticity network...
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at networkCalcPackage.GCNMatrix.<init>(GCNMatrix.java:77)
+        at networkCalcPackage.Operations.findElasticity(Operations.java:1013)
+        at networkCalcPackage.NetworkCalculator.compareNetworks(NetworkCalculator.java:983)
+        at networkCalcPackage.NetworkCalculator.main(NetworkCalculator.java:1225)
+
+hmmm.... maybe its the mu and alpha values I am setting, try to see what they should be. I am almost sure this is what is wrong: change output to compare_test
+java -Xms30g -Xmx30g -XX:+UseParallelGC -XX:ParallelGCThreads=7 networkCalcPackage.NetworkCalculator compare -c pcc -e1 sedum_CAM.txt -e2 sedum_C3.txt -na 0.05 -nm 1 -o compare_test -pa 0.05 -pm 5 -t 4
+[yoccaala@dev-intel16 src]$ qsub qsub_network_compare_test
+50213740.mgr-04.i
+
+
+Another less likely possibility, perhaps there is not enough memory on each thread, so splitting it through so many threads may make each not able to handle the whole thing, submit that one too:
+[yoccaala@dev-intel16 src]$ qsub qsub_network_compare_thread
+50211354.mgr-04.i
+
+
+
+
+
+I did something on the command line a few days ago I found in a forum that told me the max heap space was 32Gb, perhaps that was just under the dev node, lets bump up shell request to 110Gb and -Xmx100g, change output to compare_100g
+[yoccaala@dev-intel16 src]$ qsub qsub_network_compare_100g
+50210991.mgr-04.i
 
 
 
