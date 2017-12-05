@@ -330,12 +330,16 @@ Another less likely possibility, perhaps there is not enough memory on each thre
 50211354.mgr-04.i
 
 
-
-
-
 I did something on the command line a few days ago I found in a forum that told me the max heap space was 32Gb, perhaps that was just under the dev node, lets bump up shell request to 110Gb and -Xmx100g, change output to compare_100g
 [yoccaala@dev-intel16 src]$ qsub qsub_network_compare_100g
 50210991.mgr-04.i
+
+_test and _thread get the same error outputs, try another _test:
+java -Xms30g -Xmx30g -XX:+UseParallelGC -XX:ParallelGCThreads=7 networkCalcPackage.NetworkCalculator compare -c pcc -e1 sedum_CAM.txt -e2 sedum_C3.txt -na 18 -nm 10 -o compare_test -pa 18 -pm 10 -t 4
+[yoccaala@dev-intel16 src]$ qsub qsub_network_compare_test
+50214847.mgr-04.i
+
+maybe the input is the output from the first ones
 
 
 
