@@ -513,7 +513,34 @@ submit those with same requests as .blast1 ones
 hot diggity damn, I think I might have actually solved it... we shall see. hopefully they freaking finish. Have to bring up with Bob how slow they are, lets check final numbers for blast run with 12 hr walltime request.. damn I deleted them already, I think I still have file size listed in stdout, check, yea, 5,6, and 7 Mb for Bdist,Sbi,and Os respectively, at blast alone was 32 Mb, damn, expecting 5X that output so... 5/160 = 1/32. 32x12 = 384 hours at this rate WITH NODES=8:PPN=3!! this is 100% a task that can be multithreaded. looks like there is a numthreads flag, "common to all BLAST+ applications" but can't run it on command line, seems like it recognizes -n as a flag to be T or F:
 [yoccaala@dev-intel14 data]$ blastall -p blastp -d "Bdistachyon_192_db Sbicolor_79_db ZmB73_db" -i Osativa_TIGR_peptide.fa -e 1e-10 -b 5 -v 5 -m 8 -o Osativa_TIGR.blast2 -num_threads 4
 [blastall] ERROR: MegaBlast search [um_threads] must be one of {'T', 't', 'F', 'f'} or omitted
+yea that didnt work, but regardless:
 
+Successful runs: Sbicolor_TIGR, Bdist_TIGR, finished in about 48 hrs after submission, so don't need to specify multi-thread on cmd line
 
+Got some problems with some maize / rice sequences, probably just a syntax thing, check it out:
+[blastall] WARNING: GRMZM2G031216_P01: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+[blastall] WARNING: GRMZM2G179334_P01: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+[blastall] WARNING: GRMZM2G036752_P05: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+[blastall] WARNING: GRMZM2G316264_P01: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+[blastall] WARNING: GRMZM2G307432_P01: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+[blastall] WARNING: GRMZM2G700875_P01: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
 
+[blastall] WARNING: LOC_Os05g48540.1: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+[blastall] WARNING: LOC_Os07g24950.1: Could not calculate ungapped Karlin-Altschul parameters due to an invalid query sequence or its translation. Please verify the query sequence(s) and/or filtering options
+
+For Maize: These just have a bunch of XXXXXXXXXXXXXXXXXXX as their sequence, going to manually delete them, then have to rebuild the databases, so delete the rice and maize db after editing, rebuild, then remove every single .blast file since we don't really need any of them, resubmit all qsubs
+
+For Rice: not really seeing anything wrong with these two proteins, just remove anyway
+
+[yoccaala@dev-intel16 data]$ formatdb -i ZmB73_peptide.fa -o T -p T -n ZmB73_db
+[yoccaala@dev-intel16 data]$ formatdb -i Osativa_TIGR_peptide.fa -o T -p T -n Osativa_db_TIGR
+
+[yoccaala@dev-intel16 data]$ qsub qsub_blastall_Osativa_TIGR.sh
+50218903.mgr-04.i
+[yoccaala@dev-intel16 data]$ qsub qsub_blastall_Bdistachyon_TIGR.sh
+50218905.mgr-04.i
+[yoccaala@dev-intel16 data]$ qsub qsub_blastall_ZmB73_TIGR.sh
+50218907.mgr-04.i
+[yoccaala@dev-intel16 data]$ qsub qsub_blastall_Sbicolor_TIGR.sh
+50218909.mgr-04.i
 
