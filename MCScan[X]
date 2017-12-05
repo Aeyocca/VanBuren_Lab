@@ -544,3 +544,47 @@ For Rice: not really seeing anything wrong with these two proteins, just remove 
 [yoccaala@dev-intel16 data]$ qsub qsub_blastall_Sbicolor_TIGR.sh
 50218909.mgr-04.i
 
+They all ran successfully. Its a little fishy the file sizes are so small, I think its because I used such a low e value in the blastall (e-10). Concatenate all files into a new file called grass_all.blast
+[yoccaala@dev-intel14 data]$ cat Osativa_TIGR.blast2 Sbicolor_79.blast2 Bdistachyon_192.blast2 ZmB73.blast2 > grass_all.blast
+already have grass_all.gff from earlier
+[yoccaala@dev-intel14 MCScanX]$ ./MCScanX data/grass_all
+:'( didn't work.....
+thats ok, seems like I identified the problem, the gff file needs to be chrom\tgeneID\tstart\tend, but we got not that 
+Download new rice gff
+Ugh, peptide.fa does not match the .gff file locus identifiers, for example, Sbicolor_79_peptide.fa Sb0010s003450.1|PACid:1949011 is represented in .gff by the last column (9th) ID=Sb0010s003450.1;name
+I am capable of: writing something to extract the information necessary to create my own gff file that will match the .blast outputs. BUT that sounds like half a day's worth of work all said and done, so I will try to find better .gff files first
+:( .gff3 files not gonna do it
+
+maybe I need to keep PACid and geneID, in blast output I got geneID|PACid \t database identifier \t rest of info
+Lets try just making .gff file with 9th column \t 
+Well this was fun and dandy, made perl scripts to run through .gff3 files and make how they need to be, however, still some disconnect betweeen gene ID in .gff as well as in query and hit in blast file. THE BLAST FILE LISTS HITS AS INTERPRETED BY THE FREAKING FRACKIN DATABASE HOW TO TRANSLATE THOSE!?!?!?!?!?!?!?!?!?
+
+well I fixed a little bit, I still think Bdist and Sbi are missed in the analyses because of database translations not working, pretty proud I can parse the .gff files to get in the necessary format, but hahaha it did take me half the day, gonna be a great few weeks
+
+[yoccaala@dev-intel14 MCScanX]$ ./MCScanX data/grass_all
+Reading BLAST file and pre-processing
+Generating BLAST list
+318436 matches imported (480403 discarded)
+878 pairwise comparisons
+2818 alignments generated
+Pairwise collinear blocks written to data/grass_all.collinearity [26.628 seconds elapsed]
+Writing multiple syntenic blocks to HTML files
+
+I at least have a little data to play around with for Friday:
+[yoccaala@dev-intel14 MCScanX]$ ./duplicate_gene_classifier data/grass_all
+Reading BLAST file and pre-processing
+Generating BLAST list
+318436 matches imported (480403 discarded)
+878 pairwise comparisons
+2818 alignments generated
+Type of dup     Code    Number
+Singleton       0       115282
+Dispersed       1       66500
+Proximal        2       0
+Tandem  3       0
+WGD or segmental        4       81803
+
+
+consider doing just maize and rice because highest confidence in the quality of their files
+
+
