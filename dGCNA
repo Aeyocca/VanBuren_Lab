@@ -341,5 +341,18 @@ java -Xms30g -Xmx30g -XX:+UseParallelGC -XX:ParallelGCThreads=7 networkCalcPacka
 
 maybe the input is the output from the first ones
 
+fake it til you become it...
+
+12-05-17
+resubmit compare_test, change inputs to output directory from construct
+IT SAYS INPUT EXPRESSION FRAME, I CAN'T FIND AN EXPRESSION FRAME OUTPUT FROM CONSTRUCT
+directory doesn't work, try TOM.cytoscape.raw.tab
+ran on command line for about a minute, so submit that _test
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_test
+50301476.mgr-04.i
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_test
+50301476.mgr-04.i
+[yoccaala@dev-intel14 src]$ qsub qsub_network_compare_test
+50305713.mgr-04.i
 
 
