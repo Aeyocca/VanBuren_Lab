@@ -587,4 +587,42 @@ WGD or segmental        4       81803
 
 consider doing just maize and rice because highest confidence in the quality of their files
 
+12-08-17
+Lets roll through some graph making. 
+[yoccaala@dev-intel16-k80 downstream_analyses]$ java circle_plotter -g ../data/grass_all.gff -s ../data/grass_all.collinearity -c ../grass_all_circle.ctl -o ..grass_all_circle.png
+[yoccaala@dev-intel16-k80 downstream_analyses]$ mv ..grass_all_circle.png ../grass_all_circle.png
+[yoccaala@dev-intel16-k80 downstream_analyses]$ nano ../grass_all_circle.ctl
+[yoccaala@dev-intel16-k80 downstream_analyses]$ java circle_plotter -g ../data/grass_all.gff -s ../data/grass_all.collinearity -c ../Os_Sb_circle.ctl -o ../Os_Sb_circle.png
+[yoccaala@dev-intel16-k80 downstream_analyses]$ nano ../Os_Sb_circle.
+[yoccaala@dev-intel16-k80 downstream_analyses]$ nano ../Os_Sb_circle.ctl
+[yoccaala@dev-intel16-k80 downstream_analyses]$ nano ../grass_all_circle.ctl
+[yoccaala@dev-intel16-k80 downstream_analyses]$ java circle_plotter -g ../data/grass_all.gff -s ../data/grass_all.collinearity -c ../Zm_Bd_circle.ctl -o ../Zm_Bd_circle.png
+
+Link to ctl file examples:
+https://github.com/wyp1125/MCScanX
+
+[yoccaala@dev-intel14 MCScanX]$ ./duplicate_gene_classifier data/Zm_Os
+Reading BLAST file and pre-processing
+Generating BLAST list
+113570 matches imported (390717 discarded)
+169 pairwise comparisons
+877 alignments generated
+Type of dup     Code    Number
+Singleton       0       118128
+Dispersed       1       51707
+Proximal        2       0
+Tandem  3       0
+WGD or segmental        4       33273
+
+rerun .blast3 with e value adjusted to 1e-5 instead of -10. Should still have recovered some tandems though
+
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Osativa_TIGR.sh
+50356698.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Bdistachyon_TIGR.sh
+50356699.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_Sbicolor_TIGR.sh
+50356700.mgr-04.i
+[yoccaala@dev-intel14 data]$ qsub qsub_blastall_ZmB73_TIGR.sh
+50356701.mgr-04.i
+
 
