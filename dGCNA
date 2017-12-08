@@ -355,4 +355,7 @@ ran on command line for about a minute, so submit that _test
 [yoccaala@dev-intel14 src]$ qsub qsub_network_compare_test
 50305713.mgr-04.i
 
+Taking days to submit >:(  reduce resource request, resubmit 
+[yoccaala@dev-intel16-k80 src]$ qsub qsub_network_compare_test
+50354057.mgr-04.i
 
